@@ -1,6 +1,8 @@
 package com.secretary.bot.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.vertx.reactivex.core.Vertx;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -15,6 +17,12 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
  */
 @Configuration
 public class AppConfig {
+
+
+    @Bean
+    Vertx vertx() {
+        return Vertx.vertx();
+    }
 
     @Bean
     ObjectMapper customObjectMapper() {

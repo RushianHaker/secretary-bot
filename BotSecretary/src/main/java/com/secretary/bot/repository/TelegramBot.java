@@ -58,25 +58,25 @@ public class TelegramBot extends TelegramLongPollingBot {
             if (request.hasMessage() && requestMessage.hasText())
                 log.trace("Working onUpdateReceived, request text[{}]", request.getMessage().getText());
 
-                if (requestMessage.getText().equals("/start")) {
-                    response.setText(
-                            "Напишите команду для показа списка идей: \n " +
-                            "/idea  - показать заметку \n");
+            if (requestMessage.getText().equals("/start")) {
+                response.setText(
+                        "Напишите команду для показа списка идей: \n " +
+                                "/idea  - показать заметку \n");
+                execute(response);
+            } else if (requestMessage.getText().equals("/idea")) {
+                if (userService.getUserList().isEmpty()) {
+                    response.setText("Идея не найдена, попробуйте еще раз. \n");
                     execute(response);
-                } else if (requestMessage.getText().equals("/idea")) {
-                    if (userService.getUserList().isEmpty()) {
-                        response.setText("Идея не найдена, попробуйте еще раз. \n");
-                        execute(response);
-                    } else {
-                        for (User txt : userService.getUserList()) {
-                            response.setText(txt.toString());
-                            execute(response);
-                        }
-                    }
                 } else {
-                    response.setText("Чтобы я запомнил вашу мысль, просто начните отправлять их в чат :) \n ");
-                    execute(response);
+                    for (User txt : userService.getUserList()) {
+                        response.setText(txt.toString());
+                        execute(response);
+                    }
                 }
+            } else {
+                response.setText("Я запомнил вашу мысль, просто продолжайте отправлять их в чат :) \n ");
+                execute(response);
+            }
             log.trace("Working, text[{}]", requestMessage.getText());
             producerService.sendMessage(requestMessage.getMessageId(), requestMessage.getChat().getUserName(),
                     requestMessage.getText(), requestMessage.getText());
