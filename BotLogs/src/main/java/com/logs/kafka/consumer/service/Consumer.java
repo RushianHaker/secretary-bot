@@ -8,8 +8,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
 import java.util.List;
 
 /**
@@ -26,7 +24,7 @@ public class Consumer {
 
     @KafkaListener(topics = "users", groupId = "group_id")
     public void consumeWriting(String message) {
-        var consumerLog = new ConsumerLog(message.length(), message, LocalDateTime.now());
+        var consumerLog = new ConsumerLog(message.length(), message, log.getName(), LocalDate.now().toString());
         consumerRepo.insert(consumerLog);
         log.info("#### Consumed received message [{}]", message);
     }

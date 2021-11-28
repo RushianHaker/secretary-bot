@@ -38,7 +38,6 @@ public class DbConfig extends DefaultDbConfig {
         return new JdbcTemplate(dataSource);
     }
 
-
     @Data
     @NoArgsConstructor
     public static class SpringDataJdbcProperties {

@@ -18,11 +18,11 @@ public class ConsumerMapper implements RowMapper<ConsumerLog> {
 
     @Override
     public ConsumerLog mapRow(ResultSet rs, int rowNum) throws SQLException {
-        var date = rs.getDate("date_time");
         var entity = new ConsumerLog(
                 rs.getInt("id"),
                 rs.getString("message"),
-                date == null ? null : date.toLocalDate().atStartOfDay()
+                rs.getString("uri"),
+                rs.getString("date_time")
         );
         log.trace("ConsumerMapper(): entity = [{}]", entity);
         return entity;
