@@ -20,7 +20,7 @@ import java.util.List;
 public class ConsumerLogRepository implements IConsumerLogRepository {
 
     private static final String SQL_SELECT_LIST = "SELECT id, message, date_time, topic FROM log";
-    private static final String SQL_INSERT = "INSERT INTO log (message, date_time, topic) VALUES ( ?, ?, ?)";
+    private static final String SQL_INSERT = "INSERT INTO log (message, date_time, topic) VALUES (?, ?, ?)";
 
     protected final static ConsumerMapper CONSUMER_LOG_MAPPER = new ConsumerMapper();
 

@@ -63,7 +63,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 requestMessage.getText());
 
         if (request.hasMessage() && requestMessage.hasText())
-            log.trace("Working onUpdateReceived, request text[{}]", request.getMessage().getText());
+            log.info("Working onUpdateReceived, request text[{}]", request.getMessage().getText());
 
         if (requestMessage.getText().equals("/start"))
             defaultMsg(response, "Напишите команду для показа списка мыслей: \n " + "/idea - показать мысли");
@@ -72,14 +72,14 @@ public class TelegramBot extends TelegramLongPollingBot {
         else
             defaultMsg(response, "Я записал вашу мысль :) \n ");
 
-        log.trace("Working, text[{}]", requestMessage.getText());
+        log.info("Working, text[{}]", requestMessage.getText());
 
         if (requestMessage.getText().startsWith("/")) {
             entity.setStartWord("команда: ");
-            producerService.sendMessage( entity);
+            producerService.sendMessage(entity);
         } else {
             entity.setStartWord("мысль: ");
-            producerService.sendMessage( entity);
+            producerService.sendMessage(entity);
             userService.insert(entity);
         }
     }
@@ -98,6 +98,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 response.setText(txt.toString());
                 execute(response);
             }
+            log.info("onIdea(), response[{}]", response.getText());
         }
     }
 

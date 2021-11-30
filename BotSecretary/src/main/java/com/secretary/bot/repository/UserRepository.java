@@ -85,7 +85,6 @@ public class UserRepository implements IUserRepository {
     @Override
     public void insert(User entity) throws DbException {
         try {
-            // В параметры запроса все поля сущности кроме идентификатора, т.к. он serial и генерируется автоматом
             var result = template.update(SQL_INSERT,
                     entity.getName(),
                     entity.getDescription());
