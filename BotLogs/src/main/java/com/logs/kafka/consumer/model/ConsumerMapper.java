@@ -12,7 +12,6 @@ import java.sql.SQLException;
  * @author Max Ivanov
  * created 28.11.2021
  */
-
 @Slf4j
 public class ConsumerMapper implements RowMapper<ConsumerLog> {
 

@@ -15,7 +15,6 @@ import java.util.List;
  *
  * @author Max Ivanov
  */
-
 @Repository
 @Slf4j
 public class ConsumerLogRepository implements IConsumerLogRepository {

@@ -11,7 +11,6 @@ import java.util.List;
  * @author Max Ivanov
  * created 08.11.2021
  */
-
 public interface IConsumerLogRepository {
 
      /**
