@@ -8,7 +8,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 /**
- * Класс Producer
+ * Класс Producer - класс издатель, который отправляет сообщения в кафку
  *
  * @author Max Ivanov
  * created 08.11.2021
@@ -27,11 +27,8 @@ public class Producer {
         this.repo = repo;
     }
 
-    public void sendMessage(int id, String name, String description, String lastCommand) {
-        if (name == null || description.isEmpty()) log.info("#### Empty name/description message");
-        var user = new User(id, name, description, lastCommand);
-        repo.insert(user);
-
+    public void sendMessage(User user) {
+        if (user.getName() == null || user.getDescription().isEmpty()) log.info("#### Empty name/description message");
         log.trace("#### Producing message [user={}]", user);
         kafkaTemplate.send(TOPIC, "Writing in log -> " + user);
     }

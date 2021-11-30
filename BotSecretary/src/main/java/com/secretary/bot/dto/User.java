@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 /**
- * Класс User
+ * Класс User - модель пользоваетля
  *
  * @author MaxIvanov
  * created 16.08.2021
@@ -32,14 +32,9 @@ public class User {
      */
     @JsonProperty("description")
     private final String description;
-    /**
-     * lastCommand
-     */
-    @JsonProperty("lastCommand")
-    private final String lastCommand;
+
+    private String startWord = "";
 
     @Override
-    public String toString() {
-        return "User's name: " + name + " and he's idea - " + '\n' + description + '\n';
-    }
+    public String toString() { return startWord + description; }
 }

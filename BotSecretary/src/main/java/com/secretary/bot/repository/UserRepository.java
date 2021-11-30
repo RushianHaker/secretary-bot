@@ -25,11 +25,11 @@ public class UserRepository implements IUserRepository {
 
     // constants
     private static final String SQL_SELECT_BY_NAME = "" +
-            "SELECT id, user_name, description, last_command FROM user_table WHERE id=?";
+            "SELECT id, user_name, description FROM user_table WHERE id=?";
     private static final String SQL_SELECT_LIST = "" +
-            "SELECT id, user_name, description, last_command FROM user_table";
+            "SELECT id, user_name, description FROM user_table";
     private static final String SQL_INSERT = "" +
-            "INSERT INTO user_table (id, user_name, description, last_command) VALUES (?, ?, ?, ?)";
+            "INSERT INTO user_table (user_name, description) VALUES (?, ?)";
     private static final String SQL_DELETE = "" +
             "DELETE FROM user_table WHERE id = ?";
 
@@ -88,10 +88,8 @@ public class UserRepository implements IUserRepository {
         try {
             // В параметры запроса все поля сущности кроме идентификатора, т.к. он serial и генерируется автоматом
             var result = template.update(SQL_INSERT,
-                    entity.getId(),
                     entity.getName(),
-                    entity.getDescription(),
-                    entity.getLastCommand());
+                    entity.getDescription());
             if (result != 1) log.trace("UserRepository.update() with {} rows inserted", entity);
             log.trace("insert({}) result={}", entity, result);
         } catch (DataAccessException exception) {
@@ -108,7 +106,6 @@ public class UserRepository implements IUserRepository {
     @Override
     public void delete(User entity) throws DbException {
         try {
-            // в параметры запроса идентификатор
             var result = template.update(SQL_DELETE, entity.getId());
             if (result != 1) log.trace("UserRepository.delete() with {} rows inserted", entity);
             log.trace("delete({}) result={}", entity, result);

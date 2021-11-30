@@ -34,11 +34,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.5.6'
     implementation 'org.springframework.data:spring-data-commons:2.6.0'
     implementation 'org.springframework.kafka:spring-kafka:2.7.6'
-
-    implementation('io.vertx:vertx-kafka-client:4.2.1')
-    implementation('io.vertx:vertx-jdbc-client:4.2.1')
-    implementation('io.vertx:vertx-sql-common:3.9.10')
-
     implementation 'org.postgresql:postgresql:42.3.1'
     implementation 'com.h2database:h2:1.4.200'
 

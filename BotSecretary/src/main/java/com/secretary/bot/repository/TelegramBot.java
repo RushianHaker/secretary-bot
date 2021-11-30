@@ -4,6 +4,7 @@ import com.secretary.bot.dto.User;
 import com.secretary.bot.service.Producer;
 import com.secretary.bot.service.UserService;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
 
+    private Message requestMessage = new Message();
+    private final SendMessage response = new SendMessage();
     private final Producer producerService;
     private final UserService userService;
 
@@ -49,41 +52,63 @@ public class TelegramBot extends TelegramLongPollingBot {
      *
      * @param request Получено обновление
      */
+    @SneakyThrows
     @Override
     public void onUpdateReceived(Update request) {
-        SendMessage response = new SendMessage();
-        Message requestMessage = request.getMessage();
+        requestMessage = request.getMessage();
         response.setChatId(requestMessage.getChatId().toString());
-        try {
-            if (request.hasMessage() && requestMessage.hasText())
-                log.trace("Working onUpdateReceived, request text[{}]", request.getMessage().getText());
 
-            if (requestMessage.getText().equals("/start")) {
-                response.setText(
-                        "Напишите команду для показа списка идей: \n " +
-                                "/idea  - показать заметку \n");
-                execute(response);
-            } else if (requestMessage.getText().equals("/idea")) {
-                if (userService.getUserList().isEmpty()) {
-                    response.setText("Идея не найдена, попробуйте еще раз. \n");
-                    execute(response);
-                } else {
-                    for (User txt : userService.getUserList()) {
-                        response.setText(txt.toString());
-                        execute(response);
-                    }
-                }
-            } else {
-                response.setText("Я запомнил вашу мысль, просто продолжайте отправлять их в чат :) \n ");
+        var entity = new User(
+                0, requestMessage.getChat().getUserName(),
+                requestMessage.getText());
+
+        if (request.hasMessage() && requestMessage.hasText())
+            log.trace("Working onUpdateReceived, request text[{}]", request.getMessage().getText());
+
+        if (requestMessage.getText().equals("/start"))
+            defaultMsg(response, "Напишите команду для показа списка мыслей: \n " + "/idea - показать мысли");
+        else if (requestMessage.getText().equals("/idea"))
+            onIdea(response);
+        else
+            defaultMsg(response, "Я записал вашу мысль :) \n ");
+
+        log.trace("Working, text[{}]", requestMessage.getText());
+
+        if (requestMessage.getText().startsWith("/")) {
+            entity.setStartWord("команда: ");
+            producerService.sendMessage( entity);
+        } else {
+            entity.setStartWord("мысль: ");
+            producerService.sendMessage( entity);
+            userService.insert(entity);
+        }
+    }
+
+    /**
+     * Метод отправки сообщения со списком мыслей - по команде "/idea"
+     *
+     * @param response - метод обработки сообщения
+     */
+    private void onIdea(SendMessage response) throws TelegramApiException {
+        if (userService.getUserList().isEmpty()) {
+            defaultMsg(response, "В списке нет мыслей. \n");
+        } else {
+            defaultMsg(response, "Вот список ваших мыслей: \n");
+            for (User txt : userService.getUserList()) {
+                response.setText(txt.toString());
                 execute(response);
             }
-            log.trace("Working, text[{}]", requestMessage.getText());
-            producerService.sendMessage(requestMessage.getMessageId(), requestMessage.getChat().getUserName(),
-                    requestMessage.getText(), requestMessage.getText());
-            userService.insert(new User(requestMessage.getMessageId(), requestMessage.getChat().getUserName(),
-                    requestMessage.getText(), requestMessage.getText()));
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
         }
+    }
+
+    /**
+     * Шабонный метод отправки сообщения пользователю
+     *
+     * @param response - метод обработки сообщения
+     * @param msg - сообщение
+     */
+    private void defaultMsg(SendMessage response, String msg) throws TelegramApiException {
+        response.setText(msg);
+        execute(response);
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Класс IUserRepository
+ * Класс IUserRepository реализует репозиторий работы с записями событий в БД
  *
  * @author Max Ivanov
  */
@@ -20,8 +20,8 @@ import java.util.List;
 @Slf4j
 public class ConsumerLogRepository implements IConsumerLogRepository {
 
-    private static final String SQL_SELECT_LIST = "SELECT id, message, date_time FROM log";
-    private static final String SQL_INSERT = "INSERT INTO log (id, message, date_time) VALUES (?, ?, ?)";
+    private static final String SQL_SELECT_LIST = "SELECT id, message, date_time, topic FROM log";
+    private static final String SQL_INSERT = "INSERT INTO log (message, date_time, topic) VALUES ( ?, ?, ?)";
 
     protected final static ConsumerMapper CONSUMER_LOG_MAPPER = new ConsumerMapper();
 
@@ -44,7 +44,7 @@ public class ConsumerLogRepository implements IConsumerLogRepository {
      */
     @Override
     public void insert(ConsumerLog entity) throws DbException {
-        var result = template.update(SQL_INSERT, entity.getId(), entity.getMsg(), entity.getLogDate());
+        var result = template.update(SQL_INSERT, entity.getMsg(), entity.getLogDate(), entity.getTopic());
         if (result != 1) log.trace("ConsumerLogRepository.insert() with {} rows inserted", entity);
         log.trace("insert({}) result={}", entity, result);
     }

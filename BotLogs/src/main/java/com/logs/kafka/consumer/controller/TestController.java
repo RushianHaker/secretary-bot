@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
- * Класс TestController
+ * Класс TestController - простенький контроллер для получения списка логов из БД
  *
  * @author Max Ivanov
  * created 16.09.2021

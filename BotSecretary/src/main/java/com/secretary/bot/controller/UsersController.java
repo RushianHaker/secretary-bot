@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
- * Класс UsersController
+ * Класс UsersController - простенький контроллер для получения списка мыслей из БД
  *
  * @author MaxIvanov
  * created 13.07.2021
@@ -32,9 +32,9 @@ public class UsersController {
     /**
      * Возвращает список пользователей и связанных с ними планами
      */
-    @RequestMapping(path = "/users_plan", method = RequestMethod.GET)
-    public List<User> getPlansList() {
-        log.debug("Method - getPlansList was called");
+    @RequestMapping(path = "/users_idea", method = RequestMethod.GET)
+    public List<User> getIdeaList() {
+        log.debug("Method - getIdeaList was called");
         return wrapResult(userService.getUserList());
     }
 

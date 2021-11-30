@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Класс PlansMapper
+ * Класс PlansMapper - маппер модели ConsumerLog
  *
  * @author Max Ivanov
  * created 28.11.2021
@@ -18,11 +18,12 @@ public class ConsumerMapper implements RowMapper<ConsumerLog> {
 
     @Override
     public ConsumerLog mapRow(ResultSet rs, int rowNum) throws SQLException {
+        var date = rs.getDate("date_time");
         var entity = new ConsumerLog(
                 rs.getInt("id"),
                 rs.getString("message"),
-                rs.getString("uri"),
-                rs.getString("date_time")
+                rs.getString("topic"),
+                date == null ? null : date.toLocalDate()
         );
         log.trace("ConsumerMapper(): entity = [{}]", entity);
         return entity;

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Класс Consumer
+ * Класс Consumer - класс подписчик, который получает сообщения из кафки и обрабатывает их
  *
  * @author Max Ivanov
  * created 08.11.2021
@@ -20,11 +20,12 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class Consumer {
+    private static final String TOPIC_NAME = "users";
     protected final IConsumerLogRepository consumerRepo;
 
-    @KafkaListener(topics = "users", groupId = "group_id")
+    @KafkaListener(topics = TOPIC_NAME, groupId = "group_id")
     public void consumeWriting(String message) {
-        var consumerLog = new ConsumerLog(message.length(), message, log.getName(), LocalDate.now().toString());
+        var consumerLog = new ConsumerLog(0, message, TOPIC_NAME, LocalDate.now());
         consumerRepo.insert(consumerLog);
         log.info("#### Consumed received message [{}]", message);
     }
