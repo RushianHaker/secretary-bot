@@ -18,7 +18,6 @@ import java.util.List;
  * @author IvanovMaxim
  * created 12.08.2021
  */
-
 @Slf4j
 @Repository
 public class UserRepository implements IUserRepository {
