@@ -89,7 +89,7 @@ public class UserRepository implements IUserRepository {
                     entity.getName(),
                     entity.getDescription());
             if (result != 1) log.trace("UserRepository.update() with {} rows inserted", entity);
-            log.trace("insert({}) result={}", entity, result);
+            log.info("insert({}) result={}", entity, result);
         } catch (DataAccessException exception) {
             throw new DbException(exception);
         }
@@ -106,7 +106,7 @@ public class UserRepository implements IUserRepository {
         try {
             var result = template.update(SQL_DELETE, entity.getId());
             if (result != 1) log.trace("UserRepository.delete() with {} rows inserted", entity);
-            log.trace("delete({}) result={}", entity, result);
+            log.info("delete({}) result={}", entity, result);
         } catch (DataAccessException exception) {
             throw new DbException(exception);
         }

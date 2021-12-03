@@ -28,7 +28,7 @@ public class Producer {
         var producer = vertxConf.createProducer();
         producer.partitionsFor(TOPIC)
                 .onSuccess(partitions -> partitions.forEach(System.out::println))
-                .onFailure(cause -> System.out.println("Could not produce=" + cause.getMessage()));
+                .onFailure(cause -> log.error("Could not produce=" + cause.getMessage()));
 
         producerWrite(producer, user);
     }
@@ -36,12 +36,12 @@ public class Producer {
     public void producerWrite(KafkaProducer<String, String> producer, User user) {
         KafkaProducerRecord<String, String> record =
                 KafkaProducerRecord.create(TOPIC, " " + user.toString() + ", author-" + user.getName() +
-                        ", written on topic-" + TOPIC);
+                        ",  written on topic-" + TOPIC);
 
         producer.send(record)
-                .onSuccess(recordMetadata -> System.out.println("Message written on " + recordMetadata.getTopic()
+                .onSuccess(recordMetadata -> log.info("Message written on " + recordMetadata.getTopic()
                         + ", offset=" + recordMetadata.getOffset() +
                         ", timestamp=" + recordMetadata.getTimestamp()))
-                .onFailure(cause -> System.out.println("Could not producer write=" + cause.getMessage()));
+                .onFailure(cause -> log.error("Could not producer write=" + cause.getMessage()));
     }
 }
