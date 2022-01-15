@@ -31,7 +31,7 @@ public class UserService extends BaseService {
      */
     public List<User> getUserList() {
         log.trace("#### getUserList() - working");
-        return repo.getUserList();
+        return wrapResults(repo.getUserList());
     }
 
     /**
@@ -41,7 +41,7 @@ public class UserService extends BaseService {
      */
     public User getById(int id) {
         log.trace("#### getById() [id={}]", id);
-        return repo.getById(id);
+        return wrapResult(repo.getById(id));
     }
 
     /**

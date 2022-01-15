@@ -29,7 +29,7 @@ public class Producer {
 
     public void sendMessage(User user) {
         if (user.getName() == null || user.getDescription().isEmpty()) log.info("#### Empty name/description message");
-        log.trace("#### Producing message [user={}]", user);
+        log.info("#### Producing message [user={}]", user);
         kafkaTemplate.send(TOPIC, "Writing in log -> " + user);
     }
 }

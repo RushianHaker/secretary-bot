@@ -35,22 +35,8 @@ public class UsersController {
     @RequestMapping(path = "/users_idea", method = RequestMethod.GET)
     public List<User> getIdeaList() {
         log.debug("Method - getIdeaList was called");
-        return wrapResult(userService.getUserList());
+        return userService.getUserList();
     }
-
-    /**
-     * Обёртка результата
-     *
-     * @param result результат
-     * @return результат
-     * @throws NotFoundException если результат null
-     */
-    public <T> T wrapResult(T result) {
-        if (result == null)
-            throw new NotFoundException();
-        return result;
-    }
-
 }
 
 

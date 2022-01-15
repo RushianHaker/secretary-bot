@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 /**
  * Класс DefaultDbConfig - базовый класс для уменьшения дублированного кода инициализации бинов
  *
- * @author dkupchenko
  * created 10.12.2020
  */
 @Slf4j

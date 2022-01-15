@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 /**
- * Класс User - модель пользоваетля
+ * Класс User - модель пользователя
  *
  * @author MaxIvanov
  * created 16.08.2021
