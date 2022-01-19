@@ -23,6 +23,12 @@ public class Consumer {
     private static final String TOPIC_NAME = "users";
     protected final IConsumerLogRepository consumerRepo;
 
+    /**
+     * Метод обработки сообщений от producer,
+     * который "отлавливает" эти самые сообщения с помощью аннотации KafkaListener и принимает их в виде параметра.
+     *
+     * @param message сообщение от producer, которое прилетает в кафка
+     */
     @KafkaListener(topics = TOPIC_NAME, groupId = "group_id")
     public void consumeWriting(String message) {
         var consumerLog = new ConsumerLog(0, message, TOPIC_NAME, LocalDate.now());
@@ -30,6 +36,9 @@ public class Consumer {
         log.info("#### Consumed received message [{}]", message);
     }
 
+    /**
+     * Получение списка логов из БД
+     */
     public List<ConsumerLog> consumeLog() {
         var list = consumerRepo.getLogsList();
         list.forEach(msg -> log.info("#### Consumer list log [{}]", msg.toString()));
