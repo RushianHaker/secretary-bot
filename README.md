@@ -4,11 +4,9 @@ ____
 
 **Telegram Bot** - используется для отслеживания всех мыслей и вывода их в чат
 
-> Мой Телеграм - https://t.me/l_i_m_k_o_r_n
-
 ---
 
-- Bot - [@your_private_secretary_bot](t.me/your_private_secretary_bot)
+> Мой Телеграм - https://t.me/l_i_m_k_o_r_n
 
 ---
 
